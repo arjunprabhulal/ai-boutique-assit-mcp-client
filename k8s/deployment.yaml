@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-boutique-mcp
+  labels:
+    app: ai-boutique-mcp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ai-boutique-mcp
+  template:
+    metadata:
+      labels:
+        app: ai-boutique-mcp
+    spec:
+      containers:
+      - name: ai-boutique-mcp
+        image: gcr.io/YOUR_PROJECT_ID/ai-boutique-assistant:latest
+        ports:
+        - containerPort: 8000
+        env:
+        - name: GOOGLE_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: google-api-key
+              key: api-key

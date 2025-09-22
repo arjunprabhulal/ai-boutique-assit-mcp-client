@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+.env
+.venv/
+venv/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Generated deployment files
+k8s/deployment-updated.yaml
+k8s/*-updated.yaml
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# Docker
+Dockerfile.bak
+*.tar
+*.bak
+
+# Kubernetes temp files
+ingress-nginx-mcp.yaml
+ingress-nginx-mcp.yaml.bak
+/tmp/nginx-ingress-mcp.yaml
+
+# ADK logs
+/var/folders/*/agents_log/

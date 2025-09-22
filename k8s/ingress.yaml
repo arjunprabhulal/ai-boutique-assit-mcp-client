@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ai-boutique-mcp-ingress
+spec:
+  ingressClassName: ingress-nginx-mcp
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: ai-boutique-mcp-service
+            port:
+              number: 8000
