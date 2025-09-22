@@ -4,6 +4,8 @@ An AI shopping assistant built with Google ADK (Agent Development Kit) and Model
 
 **Built for the [GKE Turns 10 Hackathon](https://gketurns10.devpost.com/)** - demonstrating how to supercharge existing microservice applications with agentic AI capabilities on Google Kubernetes Engine.
 
+![BoutiqueAI Assistant - ADK+MCP System Architecture](.Images/Architecture-ADK+MCP.png)
+
 ![ADK MCP Online Boutique Demo](.Images/ADK-MCP-OnlineBoutique-Demo.gif)
 
 ![ADK Web Shopping Conversation](.Images/ADK-Web-Shopping-Conversation.png)
@@ -195,23 +197,72 @@ Rich product displays with images, descriptions, and direct add-to-cart function
 
 ## 5. Built With
 
-### Agent Technologies
-- **Google ADK** - Agent Development Kit for AI agent framework
-- **Gemini 2.0 Flash** - Google's latest LLM for conversational AI
-- **Python 3.11** - Backend programming language
+### Programming Languages
+- **Python 3.11** - Primary backend language for ADK agent and MCP integration
+- **YAML** - Kubernetes manifests and configuration files
+- **Bash** - Deployment and automation scripts
+- **Markdown** - Documentation and README
 
-### MCP Technologies
-- **Model Context Protocol** - Communication protocol between agent and tools
-- **ai-boutique-assit-mcp** - Custom MCP server package
-- **gRPC** - Microservices communication protocol
-- **Protocol Buffers** - Data serialization
+### AI & Agent Frameworks
+- **Google Agent Development Kit (ADK) 1.14.1** - Core agent framework for AI orchestration
+- **Model Context Protocol (MCP) 1.12.1** - Communication protocol between agent and tools
+- **Gemini 2.0 Flash** - Google's latest LLM for natural language processing
+- **Google AI Platform APIs** - AI model access and inference
 
-### Dependencies
-```bash
-# requirements.txt
-google-adk==1.14.1
-ai-boutique-assit-mcp==1.0.4
-```
+### Communication Protocols
+- **gRPC** - High-performance RPC framework for microservice communication
+- **Protocol Buffers** - Data serialization and service definition
+- **JSON-RPC** - MCP protocol transport layer
+- **Stdio Protocol** - ADK to MCP server communication
+- **HTTP/HTTPS** - Web interface and API communication
+
+### Container & Orchestration
+- **Docker** - Container platform for application packaging
+- **Google Kubernetes Engine (GKE)** - Container orchestration platform
+- **Kubernetes** - Container orchestration and service discovery
+- **kubectl** - Kubernetes command-line tool
+
+### Cloud Services
+- **Google Cloud Platform (GCP)** - Primary cloud provider
+- **Google Container Registry (GCR)** - Container image storage
+- **Google Cloud APIs** - Platform services integration
+- **Kubernetes Engine API** - Cluster management
+
+### Web & Application Servers
+- **ADK Web Server** - Built-in agent web interface
+- **Uvicorn** - ASGI server for Python applications
+- **FastAPI** - Modern Python web framework (via ADK)
+
+### Networking & Ingress
+- **Nginx Ingress Controller** - HTTP(S) load balancing and routing
+- **Kubernetes Services** - Internal service discovery and load balancing
+- **Kubernetes Ingress** - External HTTP(S) access management
+- **LoadBalancer Services** - External IP assignment
+
+### Microservices (Online Boutique)
+- **Product Catalog Service** - Product search and catalog management
+- **Cart Service** - Shopping cart operations
+- **Recommendation Service** - AI-powered product suggestions
+- **Shipping Service** - Shipping quotes and order fulfillment
+- **Currency Service** - Multi-currency support and conversion
+- **Payment Service** - Payment processing and validation
+- **Email Service** - Order confirmation and notifications
+- **Checkout Service** - Complete order processing workflow
+- **Ad Service** - Contextual advertising and promotions
+
+### Development Tools
+- **Git** - Version control system
+- **GitHub** - Code repository and collaboration
+- **PyPI** - Python package distribution (ai-boutique-assit-mcp)
+- **pip** - Python package manager
+
+### Package Dependencies
+- **google-adk==1.14.1** - Google Agent Development Kit
+- **ai-boutique-assit-mcp==1.0.4** - Custom MCP server package
+- **grpcio** - gRPC Python library
+- **protobuf** - Protocol Buffers Python support
+- **requests** - HTTP client library
+- **uvicorn** - ASGI server implementation
 
 ## 6. Prerequisites
 
@@ -500,6 +551,192 @@ kubectl exec -it deployment/ai-boutique-mcp -- curl http://productcatalogservice
 - [Model Context Protocol](https://github.com/modelcontextprotocol/python-sdk)
 - [Online Boutique Demo](https://github.com/GoogleCloudPlatform/microservices-demo)
 - [Kubernetes Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/)
+
+## Testing Instructions
+
+### Prerequisites for Testing
+
+#### Required Setup
+- **Google API Key** for Gemini 2.0 Flash access
+- **Python 3.11+** installed locally
+- **Docker Desktop** running (for containerized testing)
+- **kubectl** configured (for GKE testing)
+
+#### Environment Setup
+```bash
+# Clone the repository
+git clone https://github.com/arjunprabhulal/ai-boutique-assit-mcp-client.git
+cd ai-boutique-assit-mcp-client
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Set your Google API key
+export GOOGLE_API_KEY="your-google-api-key"
+```
+
+### Local Testing
+
+#### 1. Test MCP Server Installation
+```bash
+# Verify MCP server package is installed
+pip show ai-boutique-assit-mcp
+
+# Test MCP server can start
+boutique-mcp-server --help
+```
+
+**Expected Output:**
+```
+usage: boutique-mcp-server [-h] [--port PORT] [--stdio] [--http]
+AI Boutique Assistant MCP Server
+```
+
+#### 2. Test ADK Agent Locally
+```bash
+# Start the ADK agent
+adk run ai-boutique-assit
+```
+
+**Expected Behavior:**
+- Agent starts with "Running agent botiq_ai_assist"
+- MCP server automatically spawns in stdio mode
+- Agent responds to "hi" with greeting
+- Type "exit" to stop
+
+#### 3. Test ADK Web Interface
+```bash
+# Start web interface
+adk web ai-boutique-assit --host 0.0.0.0 --port 8000
+```
+
+**Expected Behavior:**
+- Web server starts on http://localhost:8000
+- Browser shows ADK web chat interface
+- Can interact with AI shopping assistant
+
+### Feature Testing
+
+#### Shopping Features Test Cases
+
+**1. Product Search**
+- **Input:** "Show me trending products"
+- **Expected:** Agent calls `list_products` MCP tool, returns product list with names, prices, descriptions
+
+**2. Price Filtering**
+- **Input:** "Find products under $50"
+- **Expected:** Agent calls `filter_products_by_price` MCP tool, returns only products under $50
+
+**3. Add to Cart**
+- **Input:** "Add 2 mugs to my cart"
+- **Expected:** Agent searches for "mugs" first, calls `add_item_to_cart` with product ID and quantity
+
+**4. View Cart**
+- **Input:** "Show my cart"
+- **Expected:** Agent calls `get_cart` MCP tool, returns cart items with product details
+
+**5. Visual Shopping**
+- **Input:** "Show me images of sunglasses"
+- **Expected:** Agent calls `get_product_with_image` MCP tool, downloads and displays product images
+
+**6. Checkout Process**
+- **Input:** "I want to checkout"
+- **Expected:** Agent uses default shipping/payment details, calls `place_order` MCP tool
+
+### Integration Testing Scenarios
+
+#### Complete Shopping Flow Test
+1. **Start conversation:** "Hi, I want to shop"
+2. **Browse products:** "Show me trending products"
+3. **Search specific:** "Find coffee mugs"
+4. **Add to cart:** "Add 2 mugs to my cart"
+5. **View cart:** "What's in my cart?"
+6. **Get recommendations:** Should auto-show related products
+7. **Checkout:** "I want to checkout"
+8. **Confirm order:** Verify order details and tracking
+
+### Docker Testing
+
+#### 1. Test Docker Build
+```bash
+# Build container
+docker build --platform linux/amd64 -t ai-boutique-assistant:test .
+
+# Test container locally
+docker run -e GOOGLE_API_KEY="your-key" -p 8000:8000 ai-boutique-assistant:test
+```
+
+#### 2. Test Container Health
+```bash
+# Check container health
+docker ps
+docker logs <container-id>
+```
+
+### GKE Deployment Testing
+
+#### 1. Test Application Deployment
+```bash
+# Deploy application
+export PROJECT_ID="your-project-id"
+./deploy.sh
+
+# Check deployment status
+kubectl get pods -l app=ai-boutique-mcp
+kubectl get service ai-boutique-mcp-service
+kubectl get ingress ai-boutique-mcp-ingress
+```
+
+#### 2. Test External Access
+```bash
+# Get external IP
+EXTERNAL_IP=$(kubectl get ingress ai-boutique-mcp-ingress -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+echo "Testing: http://$EXTERNAL_IP/"
+
+# Test connectivity
+curl -I http://$EXTERNAL_IP/
+```
+
+### Test Validation Checklist
+
+#### Basic Functionality
+- [ ] ADK agent starts without errors
+- [ ] MCP server connects successfully
+- [ ] Web interface accessible
+- [ ] Can send/receive messages
+
+#### Shopping Features
+- [ ] Product search returns results
+- [ ] Price filtering works correctly
+- [ ] Add to cart functions properly
+- [ ] Cart view shows items correctly
+- [ ] Recommendations appear
+- [ ] Checkout process completes
+- [ ] Order confirmation displays
+
+#### Technical Integration
+- [ ] All 18+ MCP tools available
+- [ ] gRPC connections to all 9 microservices
+- [ ] No connection timeouts
+- [ ] Proper error handling
+
+### Known Test Data
+
+The application uses test data for demonstrations:
+
+#### Test User
+- **User ID:** "arjun"
+- **Email:** "customer@boutique.com"
+
+#### Test Payment (Demo Only)
+- **Credit Card:** "4432-8015-6152-0454"
+- **CVV:** 672
+- **Expiration:** 01/2030
+
+#### Test Shipping (Demo Only)
+- **Address:** "1600 Amphitheatre Parkway, Mountain View, CA 94043"
+
+**Note:** All payment and personal data is for testing purposes only and not processed by real payment systems.
 
 ## Author
 
