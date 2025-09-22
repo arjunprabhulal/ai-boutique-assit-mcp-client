@@ -79,28 +79,7 @@ An AI shopping assistant built with Google ADK (Agent Development Kit) and Model
 
 ### System Architecture Diagram
 
-```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Web Browser   │────│   ADK Web UI    │────│  MCP Protocol   │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-                                │                        │
-                                │                        │
-                         ┌─────────────────┐    ┌─────────────────┐
-                         │  ADK Agent      │────│  MCP Server     │
-                         │  (Gemini 2.0)   │    │  (ai-boutique-  │
-                         └─────────────────┘    │   assit-mcp)    │
-                                                └─────────────────┘
-                                                         │
-                                  ┌──────────────────────┼──────────────────────┐
-                                  │                      │                      │
-                            ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
-                            │   Product   │    │    Cart     │    │ Checkout    │
-                            │  Catalog    │    │  Service    │    │  Service    │
-                            └─────────────┘    └─────────────┘    └─────────────┘
-                                  │                      │                      │
-                                  └──────────────────────┼──────────────────────┘
-                                           Online Boutique Microservices
-```
+![BoutiqueAI Assistant - ADK+MCP System Architecture](.Images/Architecture-ADK+MCP.png)
 
 ### Key Architecture Components
 
