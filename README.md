@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/arjunprabhulal-ai-boutique-assit-mcp-client-badge.png)](https://mseep.ai/app/arjunprabhulal-ai-boutique-assit-mcp-client)
+
 # AI Boutique Assistant MCP Client
 
 An AI shopping assistant built with Google ADK (Agent Development Kit) and Model Context Protocol (MCP) that connects to Online Boutique microservices. Uses the [ai-boutique-assit-mcp](https://pypi.org/project/ai-boutique-assit-mcp/) PyPI package for MCP server functionality.
